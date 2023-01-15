@@ -1,3 +1,5 @@
+
+//Breath First Search
     bool checkForCycle(int src, vector<int> adj[], vector<bool> &visited ){
         queue<pair<int, int>> q;
         q.push({src, -1});
@@ -19,11 +21,37 @@
         }
         return 0;
     }
+
+//Depth Fisrt Search
     bool isCycle(int V, vector<int> adj[]) {
         vector<bool> visited(V, 0);
         for(int i=0; i<V; i++){
             if(!visited[i]){
                 bool check = checkForCycle(i, adj, visited);
+                if(check) return 1;
+            }
+        }
+        return 0;
+    }
+
+    bool checkForCycle(int src, int parent, vector<int> adj[], vector<bool> &visited){
+        bool res=false;
+        visited[src]=1;
+        for(auto i:adj[src]){
+            if(!visited[i]){
+                res = checkForCycle(i, src, adj, visited);
+                if(res) return true;
+            }
+            else if(i!=parent) return true;
+        }
+        return res;
+    }
+
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<bool> visited(V, 0);
+        for(int i=0; i<V; i++){
+            if(!visited[i]){
+                bool check = checkForCycle(i, -1, adj, visited);
                 if(check) return 1;
             }
         }
